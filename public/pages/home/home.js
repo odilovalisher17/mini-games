@@ -1,4 +1,4 @@
-const homePage = (
+const homePage = `
   <div class="game-list">
     <div class="game-list-container">
       <div class="game" onclick="navigate('/xo')">
@@ -24,6 +24,6 @@ const homePage = (
       </div>
     </div>
   </div>
-);
+`;
 
-module.exports = homePage;
+export default homePage;
