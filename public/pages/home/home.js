@@ -1,7 +1,7 @@
 const homePage = `
   <div class="game-list">
     <div class="game-list-container">
-      <div class="game" onclick="navigate('/xo')">
+      <div class="game" data-route="/xo">
         <img alt="Not Found" src="./img/xo.png" />
       </div>
       <div class="game">

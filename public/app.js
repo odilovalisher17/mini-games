@@ -6,3 +6,10 @@ const navigate = (url) => {
 };
 
 document.body.innerHTML = navbar + homePage;
+
+document.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-route]");
+  if (!el) return;
+
+  navigate(el.dataset.route);
+});
