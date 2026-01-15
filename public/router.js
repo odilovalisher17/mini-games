@@ -1,15 +1,15 @@
 import navbar from "./UtilComponents/Navbar/Navbar.js";
 import homePage from "./pages/home/home.js";
+import xo from "./pages/xo/xo.js";
 
 const render = () => {
-  console.log(window.location.pathname);
   switch (window.location.pathname) {
     case "/":
       document.body.innerHTML = navbar + homePage;
       break;
 
     case "/xo":
-      document.body.innerHTML = navbar + "<h1>X O Game Page</h1>";
+      document.body.innerHTML = navbar + xo;
       break;
 
     default:
