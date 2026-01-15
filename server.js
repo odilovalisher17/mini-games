@@ -20,7 +20,7 @@ const server = http.createServer((req, res) => {
 
   const fullPath = path.join(
     PUBLIC_DIR,
-    req.url === "/" ? "index.html" : req.url
+    ["/", "/xo"].includes(req.url) ? "index.html" : req.url
   );
   const ext = path.extname(fullPath);
   const contentType = MIME_TYPES[ext] || "application/octet-stream";
