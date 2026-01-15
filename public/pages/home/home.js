@@ -2,25 +2,25 @@ const homePage = `
   <div class="game-list">
     <div class="game-list-container">
       <div class="game" data-route="/xo">
-        <img alt="Not Found" src="./img/xo.png" />
+        <img alt="Not Found" src="/img/xo.png" />
       </div>
       <div class="game">
-        <img alt="Not Found" src="./img/rock-paper-scissors.png" />
+        <img alt="Not Found" src="/img/rock-paper-scissors.png" />
       </div>
       <div class="game">
-        <img alt="Not Found" src="./img/chess.jpg" />
+        <img alt="Not Found" src="/img/chess.jpg" />
       </div>
       <div class="game">
-        <img alt="Not Found" src="./img/checkers.png" />
+        <img alt="Not Found" src="/img/checkers.png" />
       </div>
       <div class="game">
-        <img alt="Not Found" src="./img/narda.png" />
+        <img alt="Not Found" src="/img/narda.png" />
       </div>
       <div class="game">
-        <img alt="Not Found" src="./img/monopoly.png" />
+        <img alt="Not Found" src="/img/monopoly.png" />
       </div>
       <div class="game">
-        <img alt="Not Found" src="./img/mafia.png" />
+        <img alt="Not Found" src="/img/mafia.png" />
       </div>
     </div>
   </div>

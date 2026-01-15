@@ -18,11 +18,13 @@ const MIME_TYPES = {
 const server = http.createServer((req, res) => {
   console.log(req.method, req.url);
 
-  const fullPath = path.join(
-    PUBLIC_DIR,
-    ["/", "/xo"].includes(req.url) ? "index.html" : req.url
-  );
-  const ext = path.extname(fullPath);
+  let fullPath = path.join(PUBLIC_DIR, req.url);
+  let ext = path.extname(fullPath);
+
+  if (!ext) {
+    fullPath = path.join(PUBLIC_DIR, "index.html");
+    ext = ".html";
+  }
   const contentType = MIME_TYPES[ext] || "application/octet-stream";
 
   fs.readFile(fullPath, (err, data) => {
