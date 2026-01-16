@@ -4,19 +4,19 @@ import xo from "./pages/xo/xo.js";
 
 const render = () => {
   document.body.innerHTML = "";
+  document.body.append(navbar);
+
   switch (window.location.pathname) {
     case "/":
-      document.body.append(navbar);
       document.body.append(homePage);
       break;
 
     case "/xo":
-      document.body.append(navbar);
       document.body.append(xo);
       break;
 
-    default:
-      document.body.append(navbar);
+    // default:
+    //   document.body.append(navbar);
   }
 };
 
