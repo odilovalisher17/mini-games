@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PUBLIC_DIR = path.join(__dirname, "/public");
+const API_DIR = path.join(__dirname, "/api");
 const MIME_TYPES = {
   ".html": "text/html",
   ".css": "text/css",
@@ -16,16 +17,26 @@ const MIME_TYPES = {
   ".svg": "image/svg+xml",
 };
 
+const rooms = {
+  xo: {},
+};
+
 const server = http.createServer((req, res) => {
   console.log(req.method, req.url);
 
-  let fullPath = path.join(PUBLIC_DIR, req.url);
-  let ext = path.extname(fullPath);
+  if (req.url.startsWith("/api")) {
+    var fullPath = path.join(API_DIR, req.url);
+    var ext = path.extname(fullPath);
+  } else {
+    var fullPath = path.join(PUBLIC_DIR, req.url);
+    var ext = path.extname(fullPath);
 
-  if (!ext) {
-    fullPath = path.join(PUBLIC_DIR, "index.html");
-    ext = ".html";
+    if (!ext) {
+      fullPath = path.join(PUBLIC_DIR, "index.html");
+      ext = ".html";
+    }
   }
+
   const contentType = MIME_TYPES[ext] || "application/octet-stream";
 
   fs.readFile(fullPath, (err, data) => {

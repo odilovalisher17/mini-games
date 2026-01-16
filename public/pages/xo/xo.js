@@ -38,6 +38,7 @@ formBtn.append(span);
 // ------------- Private Room Btn ------------------------
 const formPrivRoomBtn = document.createElement("button");
 formPrivRoomBtn.className = "xo-room-btn";
+formPrivRoomBtn.setAttribute("data-route", `/xo/room/${crypto.randomUUID()}`);
 xoForm.append(formPrivRoomBtn);
 
 const svg2 = document.createElement("img");
