@@ -5,21 +5,24 @@ import xo from "./pages/xo/xo.js";
 const render = () => {
   switch (window.location.pathname) {
     case "/":
-      document.body.innerHTML = navbar + homePage;
+      // document.body.innerHTML = navbar + homePage;
+      document.body.append(navbar);
       break;
 
     case "/xo":
-      document.body.innerHTML = navbar + xo;
+      document.body.append(navbar);
+      // document.body.innerHTML = navbar + xo;
       break;
 
     default:
-      document.body.innerHTML =
-        navbar +
-        `
-        <div>
-          <h1>404 - Page Not Found</h1>
-        </div>
-      `;
+      document.body.append(navbar);
+    // document.body.innerHTML =
+    //   navbar +
+    //   `
+    //   <div>
+    //     <h1>404 - Page Not Found</h1>
+    //   </div>
+    // `;
   }
 };
 
