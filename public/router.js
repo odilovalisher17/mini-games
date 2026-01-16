@@ -3,33 +3,21 @@ import homePage from "./pages/home/home.js";
 import xo from "./pages/xo/xo.js";
 
 const render = () => {
+  document.body.innerHTML = "";
   switch (window.location.pathname) {
     case "/":
-      // document.body.innerHTML = navbar + homePage;
       document.body.append(navbar);
       document.body.append(homePage);
       break;
 
     case "/xo":
       document.body.append(navbar);
-      // document.body.innerHTML = navbar + xo;
+      document.body.append(xo);
       break;
 
     default:
       document.body.append(navbar);
-    // document.body.innerHTML =
-    //   navbar +
-    //   `
-    //   <div>
-    //     <h1>404 - Page Not Found</h1>
-    //   </div>
-    // `;
   }
-};
-
-const navigate = (url) => {
-  history.pushState({ url }, "", url);
-  render();
 };
 
 render();
@@ -38,5 +26,6 @@ document.addEventListener("click", (e) => {
   const el = e.target.closest("[data-route]");
   if (!el) return;
 
-  navigate(el.dataset.route);
+  history.pushState({}, "", el.dataset.route);
+  render();
 });

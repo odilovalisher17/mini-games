@@ -39,6 +39,7 @@ const listOfGames = [
   {
     name: "xo",
     img: "/img/xo.png",
+    url: "/xo",
   },
   {
     name: "rock-paper-scissors",
@@ -69,6 +70,7 @@ const listOfGames = [
 for (let game of listOfGames) {
   const gameDiv = document.createElement("div");
   gameDiv.className = "game";
+  gameDiv.setAttribute("data-route", game.url);
   gameListContainer.append(gameDiv);
 
   const gameImg = document.createElement("img");
@@ -78,3 +80,8 @@ for (let game of listOfGames) {
 }
 
 export default homePage;
+
+// const navigate = (url) => {
+//   history.pushState({ url }, "", url);
+//   render();
+// };

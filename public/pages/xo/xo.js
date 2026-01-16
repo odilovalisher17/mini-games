@@ -22,4 +22,21 @@
 const xo = document.createElement("div");
 xo.className = "xo-container";
 
+const xoForm = document.createElement("form");
+xoForm.className = "game-xo";
+xo.append(xoForm);
+
+const formH1 = document.createElement("h1");
+formH1.innerText = "X/O Game Page";
+xoForm.append(formH1);
+
+const formInput = document.createElement("input");
+formInput.placeholder = "Enter your nickname";
+formInput.autofocus = true;
+xoForm.append(formInput);
+
+const formBtn = document.createElement("button");
+formBtn.innerText = "Join Game";
+xoForm.append(formBtn);
+
 export default xo;
