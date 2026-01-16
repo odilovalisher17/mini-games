@@ -1,29 +1,12 @@
-// const xo = `
-//     <div class="xo-container">
-//         <form class="game-xo" id='gameXO'>
-//             <h1>X/O Game Page</h1>
-//             <input placeholder="Enter your nickname" autofocus />
-//             <button>Join Game</button>
-//         </form>
-//     </div>
-// `;
-
-// const joingame = (e) => {
-//   //   e.preventDefault();
-//   console.log("hi");
-// };
-
-// // document
-// //   .getElementById("gameXO")
-// //   .addEventListener("submit", (e) => joingame(e));
-
-// export default xo;
-
 const xo = document.createElement("div");
 xo.className = "xo-container";
 
 const xoForm = document.createElement("form");
 xoForm.className = "game-xo";
+xoForm.onsubmit = (e) => {
+  e.preventDefault();
+  console.log("hi");
+};
 xo.append(xoForm);
 
 const formH1 = document.createElement("h1");
@@ -35,8 +18,38 @@ formInput.placeholder = "Enter your nickname";
 formInput.autofocus = true;
 xoForm.append(formInput);
 
+// ------------- Play Btn ------------------------
 const formBtn = document.createElement("button");
-formBtn.innerText = "Join Game";
+formBtn.className = "xo-play-btn";
 xoForm.append(formBtn);
+
+const svg = document.createElement("img");
+svg.src = "/img/chevron-right-solid.svg";
+svg.alt = "Not Found";
+svg.style.height = "20px";
+svg.style.marginRight = "10px";
+formBtn.append(svg);
+
+const span = document.createElement("span");
+span.innerText = "Play";
+formBtn.append(span);
+// -----------------------------------------
+
+// ------------- Private Room Btn ------------------------
+const formPrivRoomBtn = document.createElement("button");
+formPrivRoomBtn.className = "xo-room-btn";
+xoForm.append(formPrivRoomBtn);
+
+const svg2 = document.createElement("img");
+svg2.src = "/img/key-solid.svg";
+svg2.alt = "Not Found";
+svg2.style.height = "20px";
+svg2.style.marginRight = "10px";
+formPrivRoomBtn.append(svg2);
+
+const spanPriveRoom = document.createElement("span");
+spanPriveRoom.innerText = "Create a private room";
+formPrivRoomBtn.append(spanPriveRoom);
+// -----------------------------------------
 
 export default xo;
