@@ -7,6 +7,7 @@ const render = () => {
     case "/":
       // document.body.innerHTML = navbar + homePage;
       document.body.append(navbar);
+      document.body.append(homePage);
       break;
 
     case "/xo":
