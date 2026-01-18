@@ -1,9 +1,7 @@
 const routes = [];
 
 const route_handler = (req, res) => {
-  const route = routes.find(
-    (r) => r.url === req.url && r.method === req.method
-  );
+  const route = routes.find((r) => r.url == req.url && r.method == req.method);
 
   if (route) {
     let handler_res = route.handler();
@@ -23,4 +21,12 @@ const route_handler = (req, res) => {
   return res.end("Bad request!");
 };
 
-export default route_handler;
+const add_route = (url, method, handler) => {
+  routes.push({
+    url: url,
+    method: method,
+    handler: handler,
+  });
+};
+
+export { route_handler };
