@@ -2,6 +2,7 @@ import http from "http";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import route_handler from "./api/api_router.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,6 +28,8 @@ const server = http.createServer((req, res) => {
   if (req.url.startsWith("/api")) {
     var fullPath = path.join(API_DIR, req.url);
     var ext = path.extname(fullPath);
+
+    return route_handler(req, res);
   } else {
     var fullPath = path.join(PUBLIC_DIR, req.url);
     var ext = path.extname(fullPath);
@@ -59,5 +62,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(3333, () => {
-  console.log("Server is listening on port 33333!");
+  console.log("Server is listening on port 3333!");
 });
