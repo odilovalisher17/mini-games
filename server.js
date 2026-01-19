@@ -20,7 +20,7 @@ const MIME_TYPES = {
 };
 
 const rooms = {
-  xo: {},
+  xo: [],
 };
 
 const server = http.createServer((req, res) => {
@@ -258,6 +258,18 @@ server.on("upgrade", (req, socket) => {
       switch (msg.type) {
         case "xo_create_room": {
           const roomId = Math.random().toString(36).substring(7);
+          rooms.xo.push({
+            room_id: roomId,
+            players: [
+              {
+                username: msg.username,
+              },
+            ],
+            isStarted: false,
+            turn: null,
+            winner: undefined,
+            board: Array.from({ length: 9 }),
+          });
 
           const response = createFrame(
             JSON.stringify({
@@ -265,6 +277,52 @@ server.on("upgrade", (req, socket) => {
               room_id: roomId,
             }),
           );
+          socket.write(response);
+          break;
+        }
+
+        case "xo_join_room": {
+          const room = rooms.xo.find((r) => r.room_id === msg.room_id);
+
+          if (!room) {
+            socket.write(
+              createFrame(
+                JSON.stringify({
+                  type: "join_room",
+                  message: "Room not found!",
+                }),
+              ),
+            );
+          }
+
+          room.players.push({ username: msg.username });
+
+          if (room.players.length === 2 && room.isStarted === false) {
+            room.isStarted = true;
+            room.turn = 0;
+          }
+
+          socket.write(
+            createFrame(
+              JSON.stringify({
+                type: "join_room",
+                state: room,
+              }),
+            ),
+          );
+          break;
+        }
+
+        case "xo_room_state": {
+          const room = rooms.xo.find((r) => r.room_id === msg.room_id);
+
+          const response = createFrame(
+            JSON.stringify({
+              type: "room_state",
+              state: room,
+            }),
+          );
+
           socket.write(response);
           break;
         }
