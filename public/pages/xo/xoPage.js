@@ -1,3 +1,5 @@
+import globalState from "../../globalState";
+
 function xoPage() {
   const socket = new WebSocket("ws://localhost:3333");
   // socket.onopen = () => {
