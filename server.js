@@ -30,7 +30,7 @@ const server = http.createServer((req, res) => {
     var fullPath = path.join(API_DIR, req.url);
     var ext = path.extname(fullPath);
 
-    return route_handler(req, res);
+    return route_handler(req, res, rooms);
   } else {
     var fullPath = path.join(PUBLIC_DIR, req.url);
     var ext = path.extname(fullPath);
