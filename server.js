@@ -256,30 +256,30 @@ server.on("upgrade", (req, socket) => {
   function handleMessage(socket, msg) {
     try {
       switch (msg.type) {
-        case "xo_create_room": {
-          const roomId = Math.random().toString(36).substring(7);
-          rooms.xo.push({
-            room_id: roomId,
-            players: [
-              {
-                username: msg.username,
-              },
-            ],
-            isStarted: false,
-            turn: null,
-            winner: undefined,
-            board: Array.from({ length: 9 }),
-          });
+        // case "xo_create_room": {
+        //   const roomId = Math.random().toString(36).substring(7);
+        //   rooms.xo.push({
+        //     room_id: roomId,
+        //     players: [
+        //       {
+        //         username: msg.username,
+        //       },
+        //     ],
+        //     isStarted: false,
+        //     turn: null,
+        //     winner: undefined,
+        //     board: Array.from({ length: 9 }),
+        //   });
 
-          const response = createFrame(
-            JSON.stringify({
-              type: "create_room",
-              room_id: roomId,
-            }),
-          );
-          socket.write(response);
-          break;
-        }
+        //   const response = createFrame(
+        //     JSON.stringify({
+        //       type: "create_room",
+        //       room_id: roomId,
+        //     }),
+        //   );
+        //   socket.write(response);
+        //   break;
+        // }
 
         case "xo_join_room": {
           const room = rooms.xo.find((r) => r.room_id === msg.room_id);

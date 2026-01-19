@@ -1,20 +1,6 @@
-import globalState from "../../globalState";
+import globalState from "../../globalState.js";
 
 function xoPage() {
-  const socket = new WebSocket("ws://localhost:3333");
-  // socket.onopen = () => {
-  //   console.log("started");
-  // };
-
-  socket.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-
-    if (data.type === "create_room") {
-      history.pushState({}, "", `/xo/room/${data.room_id}`);
-      window.dispatchEvent(new Event("app:render"));
-    }
-  };
-
   // ---------------------------------------- UI ------------------------------------------
   const xo = document.createElement("div");
   xo.className = "xo-container";
@@ -58,13 +44,22 @@ function xoPage() {
   formPrivRoomBtn.className = "xo-room-btn";
   formPrivRoomBtn.type = "button";
   formPrivRoomBtn.onclick = () => {
-    if (socket.readyState === 1) {
-      socket.send(
-        JSON.stringify({
-          type: "xo_create_room",
-        }),
-      );
-    }
+    fetch("http://localhost:3333/api/xo/create-room", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: "ali1",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        history.pushState({}, "", `/xo/room/${data.room_id}`);
+        window.dispatchEvent(new Event("app:render"));
+      })
+      .catch((err) => console.log(err));
   };
   xoForm.append(formPrivRoomBtn);
 
