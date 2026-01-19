@@ -2,11 +2,7 @@ export default function xoCreateRoom(req, rooms) {
   const roomId = Math.random().toString(36).substring(7);
   rooms.xo.push({
     room_id: roomId,
-    players: [
-      {
-        username: req.body.username,
-      },
-    ],
+    players: [],
     isStarted: false,
     turn: null,
     winner: undefined,
