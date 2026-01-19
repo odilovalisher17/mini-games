@@ -20,6 +20,9 @@ function xoPage() {
   const formInput = document.createElement("input");
   formInput.placeholder = "Enter your nickname";
   formInput.autofocus = true;
+  formInput.onchange = (e) => {
+    globalState.xo.username = e.target.value;
+  };
   xoForm.append(formInput);
 
   // ------------- Play Btn ------------------------
@@ -50,7 +53,7 @@ function xoPage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: "ali1",
+        username: globalState.xo.username,
       }),
     })
       .then((res) => res.json())
