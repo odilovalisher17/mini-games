@@ -1,6 +1,6 @@
 import navbar from "./UtilComponents/Navbar/Navbar.js";
 import homePage from "./pages/home/home.js";
-import xo from "./pages/xo/xo.js";
+import xoPage from "./pages/xo/xo.js";
 
 const render = () => {
   document.body.innerHTML = "";
@@ -12,7 +12,7 @@ const render = () => {
       break;
 
     case "/xo":
-      document.body.append(xo);
+      document.body.append(xoPage());
       break;
 
     // default:
@@ -22,6 +22,7 @@ const render = () => {
 
 render();
 window.addEventListener("popstate", render);
+window.addEventListener("app:render", render);
 document.addEventListener("click", (e) => {
   const el = e.target.closest("[data-route]");
   if (!el) return;
@@ -29,3 +30,5 @@ document.addEventListener("click", (e) => {
   history.pushState({}, "", el.dataset.route);
   render();
 });
+
+export { render };

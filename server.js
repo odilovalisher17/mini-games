@@ -193,10 +193,8 @@ server.on("upgrade", (req, socket) => {
 
   // Perform WebSocket handshake
   handleWebSocketUpgrade(req, socket);
-
   console.log("✅ WebSocket connected");
 
-  let currentRoom = null;
   let buffer = Buffer.alloc(0);
 
   // Handle incoming data
@@ -237,17 +235,17 @@ server.on("upgrade", (req, socket) => {
   socket.on("end", () => {
     console.log("❌ Client disconnected");
 
-    if (currentRoom) {
-      const room = rooms.get(currentRoom);
-      if (room) {
-        room.removePlayer(socket);
-        if (room.players.length === 0) {
-          rooms.delete(currentRoom);
-        } else {
-          room.broadcast({ type: "player_left", state: room.getState() });
-        }
-      }
-    }
+    // if (currentRoom) {
+    //   const room = rooms.get(currentRoom);
+    //   if (room) {
+    //     room.removePlayer(socket);
+    //     if (room.players.length === 0) {
+    //       rooms.delete(currentRoom);
+    //     } else {
+    //       room.broadcast({ type: "player_left", state: room.getState() });
+    //     }
+    //   }
+    // }
   });
 
   socket.on("error", (err) => {
@@ -258,11 +256,14 @@ server.on("upgrade", (req, socket) => {
   function handleMessage(socket, msg) {
     try {
       switch (msg.type) {
-        case "create_room": {
+        case "xo_create_room": {
+          const roomId = Math.random().toString(36).substring(7);
+
           const response = createFrame(
             JSON.stringify({
-              type: "room_created",
-            })
+              type: "create_room",
+              room_id: roomId,
+            }),
           );
           socket.write(response);
           break;
