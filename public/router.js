@@ -1,22 +1,22 @@
 import navbar from "./UtilComponents/Navbar/Navbar.js";
 import homePage from "./pages/home/home.js";
-import xoPage from "./pages/xo/xo.js";
+import xoPage from "./pages/xo/xoPage.js";
+import xoRoomPage from "./pages/xo/xoRoom.js";
 
 const render = () => {
   document.body.innerHTML = "";
   document.body.append(navbar);
 
-  switch (window.location.pathname) {
-    case "/":
-      document.body.append(homePage);
-      break;
+  let parsedUrl = window.location.pathname.split("/");
 
-    case "/xo":
-      document.body.append(xoPage());
-      break;
-
-    // default:
-    //   document.body.append(navbar);
+  if (parsedUrl[1] === "") {
+    return document.body.append(homePage);
+  }
+  if (parsedUrl[1] === "xo") {
+    if (parsedUrl.length === 2) {
+      return document.body.append(xoPage());
+    }
+    document.body.append(xoRoomPage());
   }
 };
 
