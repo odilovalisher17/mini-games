@@ -373,6 +373,37 @@ server.on("upgrade", (req, socket) => {
           socket.write(response);
           break;
         }
+
+        case "xo_make_move": {
+          const room = rooms.xo.find((r) => r.room_id === msg.room_id);
+
+          if (room.players[room.turn].socket !== socket) {
+            socket.write(
+              createFrame(
+                JSON.stringify({
+                  type: "xo_make_move",
+                  message: "Not your turn!",
+                })
+              )
+            );
+            break;
+          }
+
+          room.board[msg.pos] = room.turn === 0 ? "x" : "o";
+          room.turn = room.turn === 0 ? 1 : 0;
+
+          room.players.forEach((p) => {
+            p.socket.write(
+              createFrame(
+                JSON.stringify({
+                  type: "room_upgrade",
+                  state: room,
+                })
+              )
+            );
+          });
+          break;
+        }
       }
     } catch (error) {
       console.log(error);
