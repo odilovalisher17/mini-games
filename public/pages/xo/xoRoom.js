@@ -39,9 +39,23 @@ function xoRoomPage() {
       roomBody.append(firstPlayer);
     }
 
+    const middlePart = document.createElement("div");
+    roomBody.append(middlePart);
+
+    if (data.state.isStarted) {
+      const gameStatus = document.createElement("div");
+      gameStatus.className = "xo-game-status";
+      gameStatus.innerHTML = `Player <span style="color:${
+        data.state.turn === 0 ? "red" : "blue"
+      }">${
+        data.state.players[data.state.turn].username
+      }</span>, your turn, make a move.`;
+      middlePart.append(gameStatus);
+    }
+
     const board = document.createElement("div");
     board.className = "xo-board";
-    roomBody.append(board);
+    middlePart.append(board);
 
     for (let cell of data.state.board) {
       const cellDiv = document.createElement("div");

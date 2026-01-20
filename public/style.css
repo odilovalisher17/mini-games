@@ -225,3 +225,9 @@ body {
   font-size: 90px;
   color: rgb(0, 89, 255);
 }
+
+.xo-game-status {
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+}
