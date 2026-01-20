@@ -288,11 +288,24 @@ server.on("upgrade", (req, socket) => {
             socket.write(
               createFrame(
                 JSON.stringify({
-                  type: "join_room",
+                  type: "xo_join_room",
                   message: "Room not found!",
-                }),
-              ),
+                })
+              )
             );
+            break;
+          }
+
+          if (room.players.length >= 2) {
+            socket.write(
+              createFrame(
+                JSON.stringify({
+                  type: "xo_join_room",
+                  message: "Rooom is full!",
+                })
+              )
+            );
+            break;
           }
 
           room.players.push({ username: msg.username });
@@ -305,10 +318,10 @@ server.on("upgrade", (req, socket) => {
           socket.write(
             createFrame(
               JSON.stringify({
-                type: "join_room",
+                type: "xo_join_room",
                 state: room,
-              }),
-            ),
+              })
+            )
           );
           break;
         }
@@ -320,7 +333,7 @@ server.on("upgrade", (req, socket) => {
             JSON.stringify({
               type: "room_state",
               state: room,
-            }),
+            })
           );
 
           socket.write(response);
