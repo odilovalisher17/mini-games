@@ -47,7 +47,7 @@ function xoPage() {
   formPrivRoomBtn.className = "xo-room-btn";
   formPrivRoomBtn.type = "button";
   formPrivRoomBtn.onclick = () => {
-    fetch("http://localhost:3333/api/xo/create-room", {
+    fetch("http://10.10.171.171:3333/api/xo/create-room", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

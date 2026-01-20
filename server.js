@@ -382,6 +382,7 @@ server.on("upgrade", (req, socket) => {
               createFrame(
                 JSON.stringify({
                   type: "xo_make_move",
+                  state: room,
                   message: "Not your turn!",
                 })
               )
@@ -411,6 +412,6 @@ server.on("upgrade", (req, socket) => {
   }
 });
 
-server.listen(3333, () => {
+server.listen(3333, "0.0.0.0", () => {
   console.log("Server is listening on port 3333!");
 });

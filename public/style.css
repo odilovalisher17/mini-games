@@ -232,3 +232,24 @@ body {
   font-size: 20px;
   margin-bottom: 10px;
 }
+
+.xo-cell-figure {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 60px;
+  color: #fff;
+  font-weight: 800;
+  animation: appear 1s 1 ease-in-out;
+}
+
+@keyframes appear {
+  from {
+    color: #fff;
+  }
+  to {
+    color: red;
+  }
+}

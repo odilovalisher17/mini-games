@@ -2,7 +2,7 @@ import globalState from "../../globalState.js";
 
 function xoRoomPage() {
   const roomId = window.location.pathname.split("/")?.[3];
-  const socket = new WebSocket(`ws://localhost:3333`);
+  const socket = new WebSocket(`ws://10.10.171.171:3333`);
   socket.onopen = () => {
     console.log("conncted");
 
@@ -57,10 +57,29 @@ function xoRoomPage() {
     board.className = "xo-board";
     middlePart.append(board);
 
-    for (let cell of data.state.board) {
+    for (let cellIdx in data.state.board) {
+      let cell = data.state.board[cellIdx];
       const cellDiv = document.createElement("div");
       cellDiv.className = "xo-board-cell";
+      if (!cell) {
+        cellDiv.onclick = () => {
+          socket.send(
+            JSON.stringify({
+              type: "xo_make_move",
+              room_id: roomId,
+              pos: cellIdx,
+            })
+          );
+        };
+      }
       board.append(cellDiv);
+
+      if (cell) {
+        const cellFigure = document.createElement("div");
+        cellFigure.className = "xo-cell-figure";
+        cellFigure.innerText = cell;
+        cellDiv.append(cellFigure);
+      }
     }
 
     if (data.state.players[1]) {
