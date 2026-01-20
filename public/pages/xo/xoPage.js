@@ -58,7 +58,6 @@ function xoPage() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         history.pushState({}, "", `/xo/room/${data.room_id}`);
         window.dispatchEvent(new Event("app:render"));
       })

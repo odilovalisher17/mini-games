@@ -246,6 +246,25 @@ server.on("upgrade", (req, socket) => {
     //     }
     //   }
     // }
+    let room_idx = rooms.xo.findIndex((r) =>
+      r.players.some((p) => p.socket === socket)
+    );
+    rooms.xo[room_idx].players = rooms.xo[room_idx].players.filter(
+      (p) => p.socket !== socket
+    );
+
+    rooms.xo[room_idx].players.forEach((p) => {
+      if (p.socket && !p.socket.destroyed) {
+        p.socket.write(
+          createFrame(
+            JSON.stringify({
+              type: "xo_room_update",
+              state: rooms.xo[room_idx],
+            })
+          )
+        );
+      }
+    });
   });
 
   socket.on("error", (err) => {
@@ -308,7 +327,7 @@ server.on("upgrade", (req, socket) => {
             break;
           }
 
-          room.players.push({ username: msg.username });
+          room.players.push({ username: msg.username, socket });
 
           if (room.players.length === 2 && room.isStarted === false) {
             room.isStarted = true;
@@ -323,6 +342,21 @@ server.on("upgrade", (req, socket) => {
               })
             )
           );
+
+          room.players
+            .filter((p) => p.socket !== socket)
+            .forEach((player) => {
+              if (player.socket && !player.socket.destroyed) {
+                player.socket.write(
+                  createFrame(
+                    JSON.stringify({
+                      type: "xo_room_update",
+                      state: room,
+                    })
+                  )
+                );
+              }
+            });
           break;
         }
 
