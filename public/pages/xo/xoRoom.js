@@ -12,7 +12,7 @@ function xoRoomPage() {
           type: "xo_join_room",
           room_id: roomId,
           username: globalState.xo.username,
-        })
+        }),
       );
     }
   };
@@ -42,16 +42,19 @@ function xoRoomPage() {
     const middlePart = document.createElement("div");
     roomBody.append(middlePart);
 
-    if (data.state.isStarted) {
-      const gameStatus = document.createElement("div");
-      gameStatus.className = "xo-game-status";
+    const gameStatus = document.createElement("div");
+    gameStatus.className = "xo-game-status";
+
+    if (data.state.players.length === 2) {
       gameStatus.innerHTML = `Player <span style="color:${
         data.state.turn === 0 ? "red" : "blue"
       }">${
         data.state.players[data.state.turn].username
       }</span>, your turn, make a move.`;
-      middlePart.append(gameStatus);
+    } else {
+      gameStatus.innerText = "Please wait for your opponent to connect...";
     }
+    middlePart.append(gameStatus);
 
     const board = document.createElement("div");
     board.className = "xo-board";
@@ -68,7 +71,7 @@ function xoRoomPage() {
               type: "xo_make_move",
               room_id: roomId,
               pos: cellIdx,
-            })
+            }),
           );
         };
       }
@@ -111,7 +114,7 @@ function xoRoomPage() {
           type: "xo_join_room",
           room_id: roomId,
           username: globalState.xo.username,
-        })
+        }),
       );
     };
     xoGameRoomContainer.append(usernameBody);

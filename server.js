@@ -247,10 +247,10 @@ server.on("upgrade", (req, socket) => {
     //   }
     // }
     let room_idx = rooms.xo.findIndex((r) =>
-      r.players.some((p) => p.socket === socket)
+      r.players.some((p) => p.socket === socket),
     );
     rooms.xo[room_idx].players = rooms.xo[room_idx].players.filter(
-      (p) => p.socket !== socket
+      (p) => p.socket !== socket,
     );
 
     rooms.xo[room_idx].players.forEach((p) => {
@@ -260,8 +260,8 @@ server.on("upgrade", (req, socket) => {
             JSON.stringify({
               type: "xo_room_update",
               state: rooms.xo[room_idx],
-            })
-          )
+            }),
+          ),
         );
       }
     });
@@ -309,8 +309,8 @@ server.on("upgrade", (req, socket) => {
                 JSON.stringify({
                   type: "xo_join_room",
                   message: "Room not found!",
-                })
-              )
+                }),
+              ),
             );
             break;
           }
@@ -321,8 +321,8 @@ server.on("upgrade", (req, socket) => {
                 JSON.stringify({
                   type: "xo_join_room",
                   message: "Rooom is full!",
-                })
-              )
+                }),
+              ),
             );
             break;
           }
@@ -339,8 +339,8 @@ server.on("upgrade", (req, socket) => {
               JSON.stringify({
                 type: "xo_join_room",
                 state: room,
-              })
-            )
+              }),
+            ),
           );
 
           room.players
@@ -352,8 +352,8 @@ server.on("upgrade", (req, socket) => {
                     JSON.stringify({
                       type: "xo_room_update",
                       state: room,
-                    })
-                  )
+                    }),
+                  ),
                 );
               }
             });
@@ -367,7 +367,7 @@ server.on("upgrade", (req, socket) => {
             JSON.stringify({
               type: "room_state",
               state: room,
-            })
+            }),
           );
 
           socket.write(response);
@@ -384,8 +384,21 @@ server.on("upgrade", (req, socket) => {
                   type: "xo_make_move",
                   state: room,
                   message: "Not your turn!",
-                })
-              )
+                }),
+              ),
+            );
+            break;
+          }
+
+          if (room.players.length !== 2) {
+            socket.write(
+              createFrame(
+                JSON.stringify({
+                  type: "xo_make_move",
+                  state: room,
+                  message: "Please wait for your opponent...",
+                }),
+              ),
             );
             break;
           }
@@ -399,8 +412,8 @@ server.on("upgrade", (req, socket) => {
                 JSON.stringify({
                   type: "room_upgrade",
                   state: room,
-                })
-              )
+                }),
+              ),
             );
           });
           break;
