@@ -187,7 +187,7 @@ body {
   width: 100%;
 }
 
-.xo-game-room-container button {
+.xo-username-btn {
   width: 100%;
   padding: 5px 0px;
   font-size: 19px;
@@ -201,6 +201,38 @@ body {
   width: 60%;
   display: grid;
   grid-template-columns: 200px 1fr 200px;
+}
+
+.xo-game-over-div {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.xo-winner {
+  text-align: center;
+  font-size: 4rem;
+  color: aliceblue;
+  font-weight: 700;
+}
+
+.xo-restart {
+  padding: 20px 0px;
+  margin: 10px 0px;
+  font-size: 2rem;
+  color: #fff;
+  background: #4e2f86;
+  border-radius: 10px;
+  width: 400px;
+  border: none;
 }
 
 .xo-board {

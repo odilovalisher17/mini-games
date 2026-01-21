@@ -40,21 +40,43 @@ function xoRoomPage() {
     }
 
     const middlePart = document.createElement("div");
+    middlePart.style.position = "relative";
     roomBody.append(middlePart);
 
-    const gameStatus = document.createElement("div");
-    gameStatus.className = "xo-game-status";
+    if (data.type !== "xo_game_over") {
+      const gameStatus = document.createElement("div");
+      gameStatus.className = "xo-game-status";
 
-    if (data.state.players.length === 2) {
-      gameStatus.innerHTML = `Player <span style="color:${
-        data.state.turn === 0 ? "red" : "blue"
-      }">${
-        data.state.players[data.state.turn].username
-      }</span>, your turn, make a move.`;
+      if (data.state.players.length === 2) {
+        gameStatus.innerHTML = `Player <span style="color:${
+          data.state.turn === 0 ? "red" : "blue"
+        }">${
+          data.state.players[data.state.turn].username
+        }</span>, your turn, make a move.`;
+      } else {
+        gameStatus.innerText = "Please wait for your opponent to connect...";
+      }
+      middlePart.append(gameStatus);
     } else {
-      gameStatus.innerText = "Please wait for your opponent to connect...";
+      const gameOverDiv = document.createElement("div");
+      gameOverDiv.className = "xo-game-over-div";
+
+      const winner = document.createElement("div");
+      winner.className = "xo-winner";
+      winner.innerText = data.state.winner
+        ? `Player ${data.state.players[data.state.winner === "x" ? 0 : 1].username} wins!`
+        : "Its a tie!";
+      gameOverDiv.append(winner);
+
+      const restart = document.createElement("button");
+      restart.className = "xo-restart";
+      restart.innerText = "Restart";
+      gameOverDiv.append(restart);
+
+      setTimeout(() => {
+        middlePart.append(gameOverDiv);
+      }, 1500);
     }
-    middlePart.append(gameStatus);
 
     const board = document.createElement("div");
     board.className = "xo-board";
@@ -84,7 +106,7 @@ function xoRoomPage() {
         cellDiv.append(cellFigure);
       }
 
-      if (data.type === "xo_game_over") {
+      if (data.type === "xo_game_over" && data.winning_position) {
         if (data.winning_position.includes(cellIdx * 1)) {
           setTimeout(() => {
             cellDiv.style.background =
@@ -139,6 +161,7 @@ function xoRoomPage() {
     usernameBody.append(usernameInput);
 
     const usernameBtn = document.createElement("button");
+    usernameBtn.className = "xo-username-btn";
     usernameBtn.innerText = "Play";
     usernameBody.append(usernameBtn);
   }
