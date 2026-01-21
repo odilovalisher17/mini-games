@@ -4,6 +4,7 @@ export default function xoCreateRoom(req, rooms) {
     room_id: roomId,
     players: [],
     isStarted: false,
+    isFinished: false,
     turn: null,
     winner: undefined,
     board: Array.from({ length: 9 }),

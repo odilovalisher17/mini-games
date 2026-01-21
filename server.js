@@ -377,6 +377,19 @@ server.on("upgrade", (req, socket) => {
         case "xo_make_move": {
           const room = rooms.xo.find((r) => r.room_id === msg.room_id);
 
+          if (room.isFinished) {
+            socket.write(
+              createFrame(
+                JSON.stringify({
+                  type: "xo_make_move",
+                  state: room,
+                  message: "Game is ended!",
+                }),
+              ),
+            );
+            break;
+          }
+
           if (room.players[room.turn].socket !== socket) {
             socket.write(
               createFrame(
@@ -403,9 +416,45 @@ server.on("upgrade", (req, socket) => {
             break;
           }
 
-          room.board[msg.pos] = room.turn === 0 ? "x" : "o";
-          room.turn = room.turn === 0 ? 1 : 0;
+          let player_symbol = room.turn === 0 ? "x" : "o";
+          room.board[msg.pos] = player_symbol;
 
+          const winnable_positions = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+          ];
+
+          let owned_positions = room.board.reduce((acc, value, index) => {
+            if (value === player_symbol) acc.push(index);
+            return acc;
+          }, []);
+
+          let is_winning_pos_reached = winnable_positions.some((s) => {
+            return s.every((e) => owned_positions.includes(e));
+          });
+          if (is_winning_pos_reached) {
+            room.isFinished = true;
+            room.winner = player_symbol;
+            room.players.forEach((p) => {
+              p.socket.write(
+                createFrame(
+                  JSON.stringify({
+                    type: "room_upgrade",
+                    state: room,
+                  }),
+                ),
+              );
+            });
+            break;
+          }
+
+          room.turn = room.turn === 0 ? 1 : 0;
           room.players.forEach((p) => {
             p.socket.write(
               createFrame(
