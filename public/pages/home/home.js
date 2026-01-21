@@ -70,18 +70,26 @@ const listOfGames = [
 for (let game of listOfGames) {
   const gameDiv = document.createElement("div");
   gameDiv.className = "game";
-  gameDiv.setAttribute("data-route", game.url);
+  if (game.url) {
+    gameDiv.setAttribute("data-route", game.url);
+  }
   gameListContainer.append(gameDiv);
 
   const gameImg = document.createElement("img");
   gameImg.alt = "Not Found";
   gameImg.src = game.img;
   gameDiv.append(gameImg);
+
+  if (!game.url) {
+    const shadowDiv = document.createElement("div");
+    shadowDiv.className = "shadow-div";
+    gameDiv.append(shadowDiv);
+
+    const comingSoonDiv = document.createElement("div");
+    comingSoonDiv.className = "coming-soon-div";
+    comingSoonDiv.innerText = "Coming Soon!";
+    gameDiv.append(comingSoonDiv);
+  }
 }
 
 export default homePage;
-
-// const navigate = (url) => {
-//   history.pushState({ url }, "", url);
-//   render();
-// };
