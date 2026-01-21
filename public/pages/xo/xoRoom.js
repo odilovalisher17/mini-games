@@ -83,6 +83,19 @@ function xoRoomPage() {
         cellFigure.innerText = cell;
         cellDiv.append(cellFigure);
       }
+
+      if (data.type === "xo_game_over") {
+        if (data.winning_position.includes(cellIdx * 1)) {
+          setTimeout(() => {
+            cellDiv.style.background =
+              data.state.winner === "x"
+                ? "rgba(255,0,0,0.5)"
+                : "rgba(0,0,255,0.5)";
+
+            cellDiv.style.animation = "xowin 1s 1 ease-in-out";
+          }, 10);
+        }
+      }
     }
 
     if (data.state.players[1]) {

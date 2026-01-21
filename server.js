@@ -435,18 +435,20 @@ server.on("upgrade", (req, socket) => {
             return acc;
           }, []);
 
-          let is_winning_pos_reached = winnable_positions.some((s) => {
-            return s.every((e) => owned_positions.includes(e));
-          });
-          if (is_winning_pos_reached) {
+          let winning_position = winnable_positions.find((pos) =>
+            pos.every((e) => owned_positions.includes(e)),
+          );
+
+          if (winning_position) {
             room.isFinished = true;
             room.winner = player_symbol;
             room.players.forEach((p) => {
               p.socket.write(
                 createFrame(
                   JSON.stringify({
-                    type: "room_upgrade",
+                    type: "xo_game_over",
                     state: room,
+                    winning_position,
                   }),
                 ),
               );
@@ -459,7 +461,7 @@ server.on("upgrade", (req, socket) => {
             p.socket.write(
               createFrame(
                 JSON.stringify({
-                  type: "room_upgrade",
+                  type: "xo_room_upgrade",
                   state: room,
                 }),
               ),
