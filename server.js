@@ -458,15 +458,17 @@ server.on("upgrade", (req, socket) => {
 
           // --------- Tie ------------
           if (room.board.reduce((t, cv) => t + (!cv ? 1 : 0), 0) === 0) {
-            socket.write(
-              createFrame(
-                JSON.stringify({
-                  type: "xo_game_over",
-                  state: room,
-                  message: "Its a tie!",
-                }),
-              ),
-            );
+            room.players.forEach((p) => {
+              p.socket.write(
+                createFrame(
+                  JSON.stringify({
+                    type: "xo_game_over",
+                    state: room,
+                    message: "Its a tie!",
+                  }),
+                ),
+              );
+            });
             break;
           }
 
