@@ -477,6 +477,7 @@ server.on("upgrade", (req, socket) => {
                 JSON.stringify({
                   type: "xo_room_upgrade",
                   state: room,
+                  move_position: msg.pos,
                 }),
               ),
             );

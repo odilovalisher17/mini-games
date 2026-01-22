@@ -99,11 +99,99 @@ function xoRoomPage() {
       }
       board.append(cellDiv);
 
-      if (cell) {
-        const cellFigure = document.createElement("div");
-        cellFigure.className = "xo-cell-figure";
-        cellFigure.innerText = cell;
-        cellDiv.append(cellFigure);
+      if (cell === "x") {
+        function createStyledLine(x1, y1, x2, y2) {
+          const line = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "line",
+          );
+          line.setAttribute("class", "line");
+          line.setAttribute("x1", x1);
+          line.setAttribute("y1", y1);
+          line.setAttribute("x2", x2);
+          line.setAttribute("y2", y2);
+
+          Object.assign(line.style, {
+            stroke: "#ff0000ff",
+            strokeWidth: "20",
+            strokeLinecap: "round",
+            fill: "none",
+            strokeDasharray: "400",
+            strokeDashoffset: "400",
+            transition: "stroke-dashoffset 0.5s ease-in-out",
+          });
+
+          if (cellIdx === data.move_position) {
+            setTimeout(() => {
+              line.style.strokeDashoffset = "0";
+            }, 100);
+          } else {
+            line.style.strokeDashoffset = "0";
+          }
+
+          return line;
+        }
+
+        const svg = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "svg",
+        );
+        svg.style.width = "80%";
+        svg.style.height = "70%";
+        svg.setAttribute("viewBox", "0 0 300 300");
+        svg.style.filter = "drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3))";
+        cellDiv.append(svg);
+
+        svg.appendChild(createStyledLine("50", "50", "250", "250"));
+        let secondLine = createStyledLine("250", "50", "50", "250");
+        secondLine.style.transitionDelay = "0.25s";
+        svg.appendChild(secondLine);
+      } else if (cell === "o") {
+        // Create SVG
+        const svg = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "svg",
+        );
+        svg.style.width = "80%";
+        svg.style.height = "70%";
+        svg.setAttribute("viewBox", "0 0 300 300");
+
+        // Create circle
+        const circle = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "circle",
+        );
+        circle.setAttribute("cx", "150"); // center x
+        circle.setAttribute("cy", "150"); // center y
+        circle.setAttribute("r", "100"); // radius
+
+        // Apply styles for drawing animation
+        circle.style.stroke = "#0026ffff";
+        circle.style.strokeWidth = "20";
+        circle.style.fill = "none";
+        circle.style.strokeLinecap = "round";
+
+        // Calculate circumference for stroke-dasharray
+        const radius = 100;
+        const circumference = 2 * Math.PI * radius; // ≈ 628
+
+        circle.style.strokeDasharray = circumference;
+        circle.style.strokeDashoffset = -circumference;
+
+        // Append to SVG
+        svg.appendChild(circle);
+        cellDiv.appendChild(svg);
+
+        // Animate the circle
+        circle.style.transition = "stroke-dashoffset 0.5s ease-in-out";
+
+        if (cellIdx === data.move_position) {
+          setTimeout(() => {
+            circle.style.strokeDashoffset = "0";
+          }, 100);
+        } else {
+          circle.style.strokeDashoffset = "0";
+        }
       }
 
       if (data.type === "xo_game_over" && data.winning_position) {
