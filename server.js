@@ -249,12 +249,16 @@ server.on("upgrade", (req, socket) => {
     let room_idx = rooms.xo.findIndex((r) =>
       r.players.some((p) => p.socket === socket),
     );
-    rooms.xo[room_idx].players = rooms.xo[room_idx].players.filter(
-      (p) => p.socket !== socket,
+    // rooms.xo[room_idx].players = rooms.xo[room_idx].players.filter(
+    //   (p) => p.socket !== socket,
+    // );
+    let playerIdx = rooms.xo[room_idx].players.findIndex(
+      (p) => p.socket === socket,
     );
+    rooms.xo[room_idx].players[playerIdx].isConnected = false;
 
     rooms.xo[room_idx].players.forEach((p) => {
-      if (p.socket && !p.socket.destroyed) {
+      if (p.socket && !p.socket.destroyed && p.isConnected) {
         p.socket.write(
           createFrame(
             JSON.stringify({
@@ -327,7 +331,11 @@ server.on("upgrade", (req, socket) => {
             break;
           }
 
-          room.players.push({ username: msg.username, socket });
+          room.players.push({
+            username: msg.username,
+            isConnected: true,
+            socket,
+          });
 
           if (room.players.length === 2 && room.isStarted === false) {
             room.isStarted = true;
