@@ -2,9 +2,9 @@ import globalState from "../../globalState.js";
 
 function xoRoomPage() {
   const roomId = window.location.pathname.split("/")?.[3];
-  const socket = new WebSocket(`ws://10.10.171.171:3333`);
+  const socket = new WebSocket(`ws://${location.host}`);
   socket.onopen = () => {
-    console.log("conncted");
+    console.log("connected");
 
     if (globalState.xo.username) {
       socket.send(
