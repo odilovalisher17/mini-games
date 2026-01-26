@@ -208,7 +208,7 @@ function xoRoomPage() {
       }
     }
 
-    if (data.state.players[1]) {
+    if (data.state.players[1] && data.state?.players?.[1]?.isConnected) {
       const secondPlayer = document.createElement("div");
       secondPlayer.className = "xo-player-2";
       const secondPlayerName = document.createElement("span");
