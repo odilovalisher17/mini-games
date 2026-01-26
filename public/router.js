@@ -2,6 +2,7 @@ import navbar from "./UtilComponents/Navbar/Navbar.js";
 import homePage from "./pages/home/home.js";
 import xoPage from "./pages/xo/xoPage.js";
 import xoRoomPage from "./pages/xo/xoRoom.js";
+import rpsPage from "./pages/rps/rps.js";
 
 const render = () => {
   document.body.innerHTML = "";
@@ -17,6 +18,9 @@ const render = () => {
       return document.body.append(xoPage());
     }
     document.body.append(xoRoomPage());
+  }
+  if (parsedUrl[1] === "rock-paper-scissors") {
+    document.body.append(rpsPage());
   }
 };
 
